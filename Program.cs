@@ -329,21 +329,21 @@ class Program
             Console.WriteLine("---------------------------");
             Console.WriteLine("Random Map Generation");
             Console.WriteLine("---------------------------");
-            Console.Write("Enter number of rows for the map: ");
-            if (!int.TryParse(Console.ReadLine(), out rows))
-            {
-                Console.WriteLine("Invalid input for rows");
-                continue;
-            }
             Console.Write("Enter number of columns for the map: ");
             if (!int.TryParse(Console.ReadLine(), out columns))
             {
                 Console.WriteLine("Invalid input for columns");
                 continue;
             }
+            Console.Write("Enter number of rows for the map: ");
+            if (!int.TryParse(Console.ReadLine(), out rows))
+            {
+                Console.WriteLine("Invalid input for rows");
+                continue;
+            }
             break;
         }
-        var map = new Map(rows, columns);
+        var map = new Map(columns, rows);
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < columns; col++)

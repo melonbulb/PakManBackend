@@ -336,38 +336,51 @@ public class Map
 
     public void PrintMap(string type = "default")
     {
-        Console.Write($"{" ",3}");
+        Console.Write($"{" ",4}");
         for (int x = 0; x < columns; x++)
         {
-            Console.Write($"{x,3}");
+            Console.Write($"{x,4}");
         }
         Console.WriteLine();
         for (int y = 0; y < rows; y++)
         {
-            Console.Write($"{y,3}");
+            Console.Write($"{y,4}");
             for (int x = 0; x < columns; x++)
             {
                 if (type == "graphical")
                 {
+                    string message = "";
                     switch (map[y][x])
                     {
                         case 0:
-                            Console.Write($"{" ",3}");
+                            message = "";
                             break;
                         case 1:
-                            Console.Write($"{"🧱",3}");
+                            message += "🧱";
                             break;
                         case 2:
-                            Console.Write($"{"🍇",3}");
+                            message += "🍇";
                             break;
                         case 3:
-                            Console.Write($"{"💪",3}");
+                            message += "💪";
                             break;
                     }
+                    if (player != null && player.Position.X == x && player.Position.Y == y)
+                    {
+                        message += "😃";
+                    }
+                    foreach (var enemy in enemies)
+                    {
+                        if (enemy.Position.X == x && enemy.Position.Y == y)
+                        {
+                            message += "👻";
+                        }
+                    }
+                    Console.Write($"{message,4}");
                 }
                 else
                 {
-                    Console.Write($"{map[y][x],3}");
+                    Console.Write($"{map[y][x],4}");
                 }
             }
             Console.WriteLine();
