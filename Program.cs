@@ -67,7 +67,7 @@ class Program
                     int.TryParse(Console.ReadLine(), out int x);
                     Console.Write("Enter new Y position for enemy: ");
                     int.TryParse(Console.ReadLine(), out int y);
-                    if (map.Graph.ContainsKey(new Map.Position(x, y)) == false)
+                    if (map.Graph.AdjacencyList.ContainsKey(new Map.Position(x, y)) == false)
                     {
                         Console.WriteLine("Invalid position for enemy.");
                     }
@@ -95,7 +95,7 @@ class Program
                     int.TryParse(Console.ReadLine(), out int newX);
                     Console.Write("Enter new Y position for enemy: ");
                     int.TryParse(Console.ReadLine(), out int newY);
-                    if (map.Graph.ContainsKey(new Map.Position(newX, newY)) == false)
+                    if (map.Graph.AdjacencyList.ContainsKey(new Map.Position(newX, newY)) == false)
                     {
                         Console.WriteLine("Invalid position for enemy.");
                     }
@@ -281,8 +281,9 @@ class Program
                 Console.WriteLine("2. View Map (Numeric)");
                 Console.WriteLine("3. View Map Report");
                 Console.WriteLine("4. View Map JSON Configuration");
-                Console.WriteLine("5. Manage Player");
-                Console.WriteLine("6. Manage Enemies");
+                Console.WriteLine("5. View Enemies to Player Paths");
+                Console.WriteLine("6. Manage Player");
+                Console.WriteLine("7. Manage Enemies");
                 Console.WriteLine("0. Exit to Main Menu");
                 Console.WriteLine("Select an option: ");
                 int.TryParse(Console.ReadLine(), out int choice);
@@ -305,9 +306,12 @@ class Program
                         Console.WriteLine(map.Config);
                         break;
                     case 5:
-                        ManagePlayerMenu(map);
+                        map.PrintEnemiesToPlayerPaths();
                         break;
                     case 6:
+                        ManagePlayerMenu(map);
+                        break;
+                    case 7:
                         ManageEnemyMenu(map);
                         break;
                     case 0:

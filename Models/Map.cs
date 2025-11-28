@@ -8,7 +8,7 @@ public class Map
     private Player? player;
     private List<Enemy> enemies = new List<Enemy>();
     private int enemyCount, powerUpCount, foodCount;
-    private Dictionary<Position, List<Position>>? graph;
+    private Graph graph;
 
     public record Position(int X, int Y);
     public int Columns => columns;
@@ -45,7 +45,7 @@ public class Map
         }
     }
 
-    public Dictionary<Position, List<Position>> GenerateGraph()
+    public Graph GenerateGraph()
     {
         Graph graph = new Graph();
         for (int y = 0; y < rows; y++)
@@ -77,11 +77,11 @@ public class Map
                 }
             }
         }
-        this.graph = graph.AdjacencyList;
-        return graph.AdjacencyList;
+        this.graph = graph;
+        return graph;
     }
 
-    public Dictionary<Position, List<Position>> Graph
+    public Graph Graph
     {
         get
         {
@@ -109,7 +109,7 @@ public class Map
         {
             throw new InvalidOperationException("Graph not generated. Call GenerateGraph() before setting the player.");
         }
-        if (graph.ContainsKey(newEnemy.Position) == false)
+        if (graph.AdjacencyList.ContainsKey(newEnemy.Position) == false)
         {
             return false;
         }
@@ -136,7 +136,7 @@ public class Map
         {
             throw new InvalidOperationException("Graph not generated. Call GenerateGraph() before setting the player.");
         }
-        if (graph.ContainsKey(newPlayer.Position) == false)
+        if (graph.AdjacencyList.ContainsKey(newPlayer.Position) == false)
         {
             PrintMessage("Invalid position for player.", "warning");
             return false;
@@ -153,7 +153,7 @@ public class Map
         {
             throw new InvalidOperationException("Graph not generated. Call GenerateGraph() before setting the player.");
         }
-        if (graph.ContainsKey(newPos) == false)
+        if (graph.AdjacencyList.ContainsKey(newPos) == false)
         {
             return false;
         }
@@ -301,6 +301,32 @@ public class Map
     public int[][] GetMap()
     {
         return map;
+    }
+
+    public void PrintEnemiesToPlayerPaths()
+    {
+        if (player == null)
+        {
+            PrintMessage("Player not set. Cannot compute paths.", "error");
+            return;
+        }
+        foreach (var enemy in enemies)
+        {
+            var path = Graph.GetShortestPath(enemy.Position, player.Position);
+            if (path != null)
+            {
+                Console.WriteLine($"Path from Enemy {enemy.Name} at ({enemy.Position.X}, {enemy.Position.Y}) to Player at ({player.Position.X}, {player.Position.Y}):");
+                foreach (var step in path)
+                {
+                    Console.Write($"({step.X}, {step.Y}) ");
+                }
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"No path found from Enemy {enemy.Name} at ({enemy.Position.X}, {enemy.Position.Y}) to Player at ({player.Position.X}, {player.Position.Y}).");
+            }
+        }
     }
 
     public void PrintReport()
