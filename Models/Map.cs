@@ -9,7 +9,6 @@ public class Map
     private List<Enemy> enemies = new List<Enemy>();
     private int enemyCount, powerUpCount, foodCount;
     private Graph? graph;
-
     public record Position(int X, int Y);
     public int Columns => columns;
     public int Rows => rows;
@@ -27,6 +26,9 @@ public class Map
             map
         });
 
+    /**
+    * Initializes a new instance of the Map class with specified dimensions.
+    */
     public Map(int columns, int rows)
     {
         this.columns = columns;
@@ -45,6 +47,9 @@ public class Map
         }
     }
 
+    /**
+    * Generates a graph representation of the map for pathfinding.
+    */
     public Graph GenerateGraph()
     {
         Graph graph = new Graph();
@@ -81,6 +86,9 @@ public class Map
         return graph;
     }
 
+    /**
+    * Gets the graph representation of the map.
+    */
     public Graph Graph
     {
         get
@@ -93,16 +101,25 @@ public class Map
         }
     }
 
+    /**
+    * Gets the player on the map.
+    */
     public Player? Player
     {
         get { return player; }
     }
 
+    /**
+    * Gets the list of enemies on the map.
+    */
     public List<Enemy> Enemies
     {
         get { return enemies; }
     }
 
+    /**
+    * Adds an enemy to the map.
+    */
     public bool AddEnemy(Enemy newEnemy)
     {
         if (graph == null)
@@ -119,6 +136,9 @@ public class Map
         return true;
     }
 
+    /**
+    * Removes an enemy from the map at the specified index.
+    */
     public bool RemoveEnemyAt(int index)
     {
         if (index >= 0 && index < enemies.Count)
@@ -130,6 +150,9 @@ public class Map
         return false;
     }
 
+    /**
+    * Sets the player on the map.
+    */
     public bool SetPlayer(Player newPlayer)
     {
         if (graph == null)
@@ -147,6 +170,9 @@ public class Map
         return true;
     }
 
+    /**
+    * Updates the player's position on the map.
+    */
     public bool UpdatePlayerPosition(Position newPos)
     {
         if (graph == null)
@@ -166,6 +192,9 @@ public class Map
         return false;
     }
 
+    /**
+    * Removes the player from the map.
+    */
     public bool RemovePlayer()
     {
         if (player != null)
@@ -176,6 +205,9 @@ public class Map
         return false;
     }
 
+    /**
+    * Sets a tile on the map at the specified position.
+    */
     public void SetTile(Position pos, string tile, bool removeFirst = true)
     {
         {
@@ -211,6 +243,9 @@ public class Map
         }
     }
 
+    /**
+    * Sets a tile on the map for a rectangular area defined by two positions.
+    */
     public void SetTile(Position pos1, Position pos2, string tile)
     {
 
@@ -227,6 +262,9 @@ public class Map
         }
     }
 
+    /**
+    * Gets the type of tile at the specified position.
+    */
     public string GetTileType(Position pos)
     {
         int x = pos.X;
@@ -242,6 +280,9 @@ public class Map
         };
     }
 
+    /**
+    * Removes a tile from the map at the specified position.
+    */
     public void RemoveTile(Position pos)
     {
         int x = pos.X;
@@ -267,6 +308,9 @@ public class Map
         map[y][x] = 0;
     }
 
+    /**
+    * Gets the tile value at the specified position.
+    */
     public int GetTile(Position pos)
     {
         int x = pos.X;
@@ -274,6 +318,9 @@ public class Map
         return map[y][x];
     }
 
+    /**
+    * Gets the adjacent tiles and their values for a given position.
+    */
     public Dictionary<Position, int> GetAdjacentTiles(Position pos)
     {
         int x = pos.X;
@@ -298,11 +345,17 @@ public class Map
         return adjacentTiles;
     }
 
+    /**
+    * Gets the map as a 2D array of integers.
+    */
     public int[][] GetMap()
     {
         return map;
     }
 
+    /**
+    * Prints the paths from each enemy to the player.
+    */
     public void PrintEnemiesToPlayerPaths()
     {
         if (player == null)
@@ -329,6 +382,9 @@ public class Map
         }
     }
 
+    /**
+    * Prints a report of the map details.
+    */
     public void PrintReport()
     {
         Console.WriteLine("---------------------------");
@@ -360,6 +416,9 @@ public class Map
         }
     }
 
+    /**
+    * Prints the map to the console.
+    */
     public void PrintMap(string type = "default")
     {
         Console.Write($"{" ",4}");
@@ -412,6 +471,10 @@ public class Map
             Console.WriteLine();
         }
     }
+
+    /**
+    * Prints a message to the console with a specified type.
+    */
     private static void PrintMessage(string message, string type = "info")
     {
         switch (type)

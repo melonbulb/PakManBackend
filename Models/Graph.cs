@@ -1,14 +1,23 @@
 namespace PakManBackend.Models;
 
+/**
+ * Represents a graph structure for pathfinding on the map.
+ */
 public class Graph
 {
     public Dictionary<Map.Position, List<Map.Position>> AdjacencyList { get; private set; }
 
+    /**
+    * Initializes a new instance of the Graph class.
+    */
     public Graph()
     {
         AdjacencyList = new Dictionary<Map.Position, List<Map.Position>>();
     }
 
+    /**
+    * Adds a directed edge from one position to another in the graph.
+    */
     public void AddEdge(Map.Position from, Map.Position to)
     {
         if (!AdjacencyList.ContainsKey(from))
@@ -18,6 +27,9 @@ public class Graph
         AdjacencyList[from].Add(to);
     }
 
+    /**
+    * Gets the neighbors of a given position in the graph.
+    */
     public List<Map.Position> GetNeighbors(Map.Position position)
     {
         if (AdjacencyList.ContainsKey(position))
@@ -27,11 +39,17 @@ public class Graph
         return new List<Map.Position>();
     }
 
+    /**
+    * Checks if there is a directed edge from one position to another in the graph.
+    */
     public bool HasEdge(Map.Position from, Map.Position to)
     {
         return AdjacencyList.ContainsKey(from) && AdjacencyList[from].Contains(to);
     }
 
+    /**
+    * Prints the graph to the console.
+    */
     public void PrintGraph()
     {
         foreach (var kvp in AdjacencyList)
@@ -41,7 +59,9 @@ public class Graph
         }
     }
 
-
+    /**
+    * Finds the shortest path between two positions using BFS.
+    */
     public List<Map.Position> GetShortestPath(Map.Position from, Map.Position to)
     {
         var queue = new Queue<Map.Position>();
@@ -91,6 +111,9 @@ public class Graph
         return path;
     }
 
+    /**
+    * Prints the shortest path between two positions to the console.
+    */
     public void PrintShortestPath(Map.Position from, Map.Position to)
     {
         var path = GetShortestPath(from, to);
