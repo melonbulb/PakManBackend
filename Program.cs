@@ -267,9 +267,8 @@ class Program
         }
     }
 
-    static void SubMenu()
+    static void SubMenu(Map map)
     {
-        Map map = GenerateCustomMap1();
         if (map != null)
         {
             Console.WriteLine("Map generated successfully.");
@@ -322,6 +321,48 @@ class Program
         }
     }
 
+    static Map GenerateRandomMap()
+    {
+        int rows = 0, columns = 0;
+        while (true)
+        {
+            Console.WriteLine("---------------------------");
+            Console.WriteLine("Random Map Generation");
+            Console.WriteLine("---------------------------");
+            Console.Write("Enter number of rows for the map: ");
+            if (!int.TryParse(Console.ReadLine(), out rows))
+            {
+                Console.WriteLine("Invalid input for rows");
+                continue;
+            }
+            Console.Write("Enter number of columns for the map: ");
+            if (!int.TryParse(Console.ReadLine(), out columns))
+            {
+                Console.WriteLine("Invalid input for columns");
+                continue;
+            }
+            break;
+        }
+        var map = new Map(rows, columns);
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < columns; col++)
+            {
+                double rand = new Random().NextDouble();
+                if (rand < 0.2)
+                {
+                    map.SetTile(Position(col, row), "wall");
+                }
+                else if (rand < 0.6)
+                {
+                    map.SetTile(Position(col, row), "power-up");
+                }
+            }
+        }
+        map.GenerateGraph();
+        return map;
+    }
+
     static void Menu()
     {
         while (true)
@@ -330,14 +371,21 @@ class Program
             Console.WriteLine("Map Generator Menu");
             Console.WriteLine("---------------------------");
             Console.WriteLine("1. Generate Custom Map 1");
+            Console.WriteLine("2. Generate Random Map");
             Console.WriteLine("0. Exit");
             Console.Write("Select an option: ");
             int.TryParse(Console.ReadLine(), out int choice);
             Console.Clear();
+            Map map;
             switch (choice)
             {
                 case 1:
-                    SubMenu();
+                    map = GenerateCustomMap1();
+                    SubMenu(map);
+                    break;
+                case 2:
+                    map = GenerateRandomMap();
+                    SubMenu(map);
                     break;
                 case 0:
                     return;
