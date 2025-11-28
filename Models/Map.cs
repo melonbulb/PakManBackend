@@ -8,7 +8,7 @@ public class Map
     private Player? player;
     private List<Enemy> enemies = new List<Enemy>();
     private int enemyCount, powerUpCount, foodCount;
-    private Graph graph;
+    private Graph? graph;
 
     public record Position(int X, int Y);
     public int Columns => columns;
